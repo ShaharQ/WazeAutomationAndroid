@@ -2,7 +2,9 @@
  * Created by OmriNissim on 31/01/2017.
  */
 
+import atu.testng.reports.utils.Utils;
 
+import atu.testng.reports.ATUReports;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
@@ -17,16 +19,25 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import atu.testng.reports.listeners.ATUReportsListener;
+import atu.testng.reports.listeners.ConfigurationListener;
+import atu.testng.reports.listeners.MethodListener;
 /**
  * Created by OmriNissim on 26/01/2017.
  */
 /**
  * Created by OmriNissim on 26/01/2017.
  */
+@Listeners({ ATUReportsListener.class, ConfigurationListener.class,
+        MethodListener.class })
 public class test {
+    {
+        System.setProperty("atu.reporter.config", "src/test/resources/atu.properties");
+
+    }
+
 
     public AndroidDriver driver;
-    Process p , p1;
 
     @BeforeTest
     public void prepareAndroidForAppium() throws IOException, InterruptedException {
@@ -35,15 +46,14 @@ public class test {
         File dir = new File("C:\\Users\\OmriNissim\\Downloads\\");
         ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
         pb.directory(dir);
-        p = pb.start();
-        Thread.sleep(5000);
+        Process p = pb.start();
+        Thread.sleep(10000);
 
         List cmdAndArgs1 = Arrays.asList("cmd", "/c","start", "LGG2Node.bat");
         File dir1 = new File("C:\\Users\\OmriNissim\\Downloads\\");
         ProcessBuilder pb1= new ProcessBuilder(cmdAndArgs1);
         pb1.directory(dir1);
-        p1 = pb1.start();
-        Thread.sleep(15000);
+        Process p1 = pb1.start();//
 
         File appDir = new File("/Users/OmriNissim/Downloads/");
         File app = new File(appDir, "waze_4_16_0_0.apk");
@@ -66,6 +76,7 @@ public class test {
         driver =  new AndroidDriver(new URL("http://127.0.0.1:4444/wd/hub"), capabilities);
 
 
+
     }
 
     @AfterTest
@@ -76,11 +87,20 @@ public class test {
     @Test
     public void test() throws InterruptedException {
 
+        Thread.sleep(5000);
         By Waze = By.id("com.waze:id/mainBottomBarMenuButton");
         driver.findElement(Waze).click();
-        p.destroy();
-        p1.destroy();
+        ATUReports.setWebDriver(driver);
+        ATUReports.add("Step Desc", false);
+
         System.out.println("done");
+    }
+    @Test
+    public void testME() {
+        ATUReports.add("Step Desc", false);
+        ATUReports.add("Step Desc", "inputValue", false);
+        ATUReports.add("Step Desc", "expectedValue", "actualValue", false);
+        ATUReports.add("Step Desc", "inputValue", "expectedValue","actualValue", false);
     }
 }
 

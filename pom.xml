@@ -10,6 +10,13 @@
 
     <dependencies>
         <dependency>
+            <groupId>ATU</groupId>
+            <artifactId>ATU</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>C:/ATU/ATUReporter_Selenium_testNG_5.5_BETA.jar</systemPath>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.9.6</version>
