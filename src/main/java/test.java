@@ -26,6 +26,7 @@ import java.util.List;
 public class test {
 
     public AndroidDriver driver;
+    Process p , p1;
 
     @BeforeTest
     public void prepareAndroidForAppium() throws IOException, InterruptedException {
@@ -34,14 +35,15 @@ public class test {
         File dir = new File("C:\\Users\\OmriNissim\\Downloads\\");
         ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
         pb.directory(dir);
-        Process p = pb.start();
-        Thread.sleep(10000);
+        p = pb.start();
+        Thread.sleep(5000);
 
         List cmdAndArgs1 = Arrays.asList("cmd", "/c","start", "LGG2Node.bat");
         File dir1 = new File("C:\\Users\\OmriNissim\\Downloads\\");
         ProcessBuilder pb1= new ProcessBuilder(cmdAndArgs1);
         pb1.directory(dir1);
-        Process p1 = pb1.start();
+        p1 = pb1.start();
+        Thread.sleep(15000);
 
         File appDir = new File("/Users/OmriNissim/Downloads/");
         File app = new File(appDir, "waze_4_16_0_0.apk");
@@ -74,9 +76,10 @@ public class test {
     @Test
     public void test() throws InterruptedException {
 
-        Thread.sleep(5000);
         By Waze = By.id("com.waze:id/mainBottomBarMenuButton");
         driver.findElement(Waze).click();
+        p.destroy();
+        p1.destroy();
         System.out.println("done");
     }
 }
