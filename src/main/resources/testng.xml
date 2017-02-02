@@ -6,7 +6,7 @@
 
 
             <class name="test" />
-<!--              This is a test                         -->
+
         </classes>
     </test> <!-- Tes -->
     <listeners>
