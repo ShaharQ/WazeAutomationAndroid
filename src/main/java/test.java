@@ -32,7 +32,7 @@ import atu.testng.reports.listeners.MethodListener;
         MethodListener.class })
 public class test {
     {
-        System.setProperty("atu.reporter.config", "src/test/resources/atu.properties");
+        System.setProperty("atu.reporter.config", "src/main/atu.properties");
 
     }
 
