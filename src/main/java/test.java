@@ -38,7 +38,7 @@ public class test {
         driverManager = new DriverManager("LGG2", "4444");
 
         //4.install the apk
-        utils.installApk();
+        utils.installApk("LGG2");
 
         //5.change the main page
         driverManager.addCapbilities("appPackage","com.waze","4444");
