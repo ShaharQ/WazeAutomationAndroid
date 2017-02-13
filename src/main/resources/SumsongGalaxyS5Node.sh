@@ -1,0 +1,1 @@
+appium --nodeconfig  ~/IdeaProjects/WazeAutomationAndroid/src/main/resources/GalaxyS5Node.json --address 127.0.0.1 --port 4723 -bp 6202 --command-timeout 600 --log ~/IdeaProjects/WazeAutomationAndroid/src/main/appiumLog1.log
