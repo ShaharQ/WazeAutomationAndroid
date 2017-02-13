@@ -3,12 +3,20 @@ package com.automation.helpers;
 import atu.testng.reports.ATUReports;
 import atu.testng.reports.logging.LogAs;
 import atu.testng.selenium.reports.CaptureScreen;
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
+import org.apache.commons.exec.DefaultExecutor;
+
+import java.io.*;
+
+import org.apache.commons.exec.ExecuteException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.io.File;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,21 +27,30 @@ public class Utils {
 
     public DriverManager driverManager;
 
-    public void openProcess(String name,String proccessName) throws InterruptedException {
+    public void openProcess(String name,String proccessName) throws InterruptedException, IOException {
 
         try {
             if (System.getProperty("os.name").startsWith("Mac OS X")) {
-                String[] args = new String[] {"/bin/bash", "-c", proccessName};
-                ProcessBuilder pb = new ProcessBuilder(args);
+
+                File proccessFile = new File("src/main/resources/" + proccessName + ".sh");
+                ProcessBuilder pb = new ProcessBuilder(proccessFile.getAbsolutePath());
+                pb.redirectErrorStream(true);
                 File dir = new File("src/main/resources/");
                 pb.directory(dir);
+                System.out.println("About to start " + proccessFile.getAbsolutePath());
                 Process p = pb.start();
-                //Runtime.getRuntime().exec(new String[]{"open /","-c","src/main/resources/" + proccessName});
+
 
             } else {
-                List cmdAndArgs = Arrays.asList("cmd", "/c", "start", proccessName);
+//                List cmdAndArgs = Arrays.asList("cmd", "/c", "start", proccessName);
+//                File dir = new File("src/main/resources/");
+//                ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
+//                pb.directory(dir);
+//                Process p = pb.start();
+                File proccessFile = new File("src/main/resources/" + proccessName + ".bat");
+                final ProcessBuilder pb = new ProcessBuilder(proccessFile.getAbsolutePath());
+                pb.redirectErrorStream(true);
                 File dir = new File("src/main/resources/");
-                ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
                 pb.directory(dir);
                 Process p = pb.start();
             }
@@ -179,6 +196,42 @@ public class Utils {
                         new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
 
             }
+        }
+    }
+
+    private void startAppiumServer()
+    {
+        CommandLine command = new CommandLine(
+                "/Applications/Appium.app/Contents/Resources/node/bin/node");
+        command.addArgument(
+                "/Applications/Appium.app/Contents/Resources/node_modules/appium/build/lib/main.js",
+                false);
+        command.addArgument("--address", false);
+        command.addArgument("0.0.0.0");
+        command.addArgument("--port", false);
+        command.addArgument("4723");
+        command.addArgument("--full-reset", false);
+        DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setExitValue(1);
+        try {
+            executor.execute(command, resultHandler);
+            Thread.sleep(5000);
+            System.out.println("Appium server started.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void stopAppiumServer() {
+        String[] command = { "/usr/bin/killall", "-KILL", "node" };
+        try {
+            Runtime.getRuntime().exec(command);
+            System.out.println("Appium server stopped.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -38,20 +38,23 @@ public class DriverManager {
 
         if(deviceName.equals("LGG2")) {
             capabilities.setCapability("platformVersion", "4.4.2");
+            //capabilities.setCapability("platformVersion", "5.0.2");
             capabilities.setCapability("appPackage", "com.lge.filemanager");
             capabilities.setCapability("appActivity", "com.lge.filemanager.MainActivity");
+//            capabilities.setCapability("appActivity", "com.waze.MainActivity");
+//            capabilities.setCapability("appPackage", "com.waze");
             capabilities.setCapability("udid", "LGD802988c53e6");
             capabilities.setCapability("bp", "6204");
         } else if(deviceName.equals("SamsungS5")){
             capabilities.setCapability("platformVersion", "6.0.1");
-            capabilities.setCapability("appPackage", "com.sec.android.app.myfiles");
-            capabilities.setCapability("appActivity", "com.sec.android.app.myfiles.MainActivity");
+            capabilities.setCapability("appActivity", "com.waze.MainActivity");
+            capabilities.setCapability("appPackage", "com.waze");
         }
 
         Object deviceType = capabilities.getCapability("platformName");
 
         if(deviceType.equals("Android")) {
-            setDriver(new AndroidDriver(new URL("http://127.0.0.1:"+port+"/wd/hub"), capabilities));
+            setDriver(new AndroidDriver(new URL("http://172.0.0.1:"+ port +"/wd/hub"), capabilities));
         } else {
             setDriver(new IOSDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), capabilities));
         }
