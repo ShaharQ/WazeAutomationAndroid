@@ -39,9 +39,27 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/main/resources/ATUReporter_Selenium_testNG_5.5_BETA.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/main/resources/ATUTestRecorder_2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
       <library name="Maven: ATU:ATU:1.0-SNAPSHOT">
         <CLASSES>
-          <root url="jar://C:/ATU/ATUReporter_Selenium_testNG_5.5_BETA.jar!/" />
+          <root url="jar://$MODULE_DIR$/src/main/resources/ATUReporter_Selenium_testNG_5.5_BETA.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

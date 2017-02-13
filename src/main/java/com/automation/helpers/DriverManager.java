@@ -1,12 +1,10 @@
 package com.automation.helpers;
 
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,15 +14,14 @@ import java.net.URL;
  */
 public class DriverManager {
 
-    private AppiumDriver driver;
-    private WebDriverWait wait;
 
-    @FindBy(id = "main_list_item_container")
-    public WebElement deviceStorge;
+    private static DesiredCapabilities capabilities;
 
-    public DriverManager(String deviceName , String port) throws MalformedURLException {
+    public static AppiumDriver getDriver(String deviceName , String port) throws MalformedURLException {
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
+        AppiumDriver driver = null;
+
+        capabilities = new DesiredCapabilities();
         capabilities.setCapability("newCommandTimeout", 60 * 5);
         capabilities.setCapability("automationName", "Appium");
         capabilities.setCapability("deviceName","test");
@@ -54,36 +51,31 @@ public class DriverManager {
         Object deviceType = capabilities.getCapability("platformName");
 
         if(deviceType.equals("Android")) {
-            setDriver(new AndroidDriver(new URL("http://172.0.0.1:"+ port +"/wd/hub"), capabilities));
+            driver = new AndroidDriver(new URL("http://172.0.0.1:"+ port +"/wd/hub"), capabilities);
         } else {
-            setDriver(new IOSDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), capabilities));
+            driver = new IOSDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), capabilities);
         }
-    }
 
-    public void addCapbilities(String capbilityName , String value, String port) throws MalformedURLException {
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(capbilityName,value);
-        if(capabilities.getCapability("PlatformName").toString() == "Android") {
-            setDriver(new AndroidDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), capabilities));
-        } else {
-            setDriver(new IOSDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), capabilities));
-        }
-    }
-
-    public AppiumDriver getDriver() {
         return driver;
     }
 
-    public void setDriver(AppiumDriver driver) {
-        this.driver = driver;
+    public static void addCapbilities(String capbilityName , String value) throws MalformedURLException {
+
+        capabilities.setCapability(capbilityName,value);
     }
 
-    public WebDriverWait getWait() {
-        return wait;
+    public static void reloadDriver(AppiumDriver driver, String port) throws MalformedURLException {
+
+        driver.quit();
+
+        Object deviceType = capabilities.getCapability("platformName");
+
+        if(deviceType.equals("Android")) {
+            driver = new AndroidDriver(new URL("http://172.0.0.1:"+ port +"/wd/hub"), capabilities);
+        } else {
+            driver = new IOSDriver(new URL("http://127.0.0.1:" + port + "/wd/hub"), capabilities);
+        }
+
     }
 
-    public void setWait(WebDriverWait wait) {
-        this.wait = wait;
-    }
 }

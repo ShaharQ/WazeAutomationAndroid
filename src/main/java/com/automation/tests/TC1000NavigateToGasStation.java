@@ -15,7 +15,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 @Listeners({ ATUReportsListener.class, ConfigurationListener.class, MethodListener.class })
 public class TC1000NavigateToGasStation {
@@ -43,7 +42,7 @@ public class TC1000NavigateToGasStation {
     }
 
     @Test
-    public void test() throws InterruptedException, MalformedURLException {
+    public void test() throws InterruptedException, IOException {
 
         //1. open new session
         mapHelper.openNewSession("LG");

@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.List;
@@ -58,21 +59,30 @@ public class Activity {
 
     }
 
-    public void openProcess(String name,String proccessName) throws InterruptedException {
+    public void openProcess(String name,String proccessName) throws InterruptedException, IOException {
 
         try {
             if (System.getProperty("os.name").startsWith("Mac OS X")) {
-                String[] args = new String[] {"/bin/bash", "-c", proccessName};
-                ProcessBuilder pb = new ProcessBuilder(args);
+
+                File proccessFile = new File("src/main/resources/" + proccessName + ".sh");
+                ProcessBuilder pb = new ProcessBuilder(proccessFile.getAbsolutePath());
+                pb.redirectErrorStream(true);
                 File dir = new File("src/main/resources/");
                 pb.directory(dir);
+                System.out.println("About to start " + proccessFile.getAbsolutePath());
                 Process p = pb.start();
-                //Runtime.getRuntime().exec(new String[]{"open /","-c","src/main/resources/" + proccessName});
+
 
             } else {
-                List cmdAndArgs = Arrays.asList("cmd", "/c", "start", proccessName);
+//                List cmdAndArgs = Arrays.asList("cmd", "/c", "start", proccessName);
+//                File dir = new File("src/main/resources/");
+//                ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
+//                pb.directory(dir);
+//                Process p = pb.start();
+                File proccessFile = new File("src/main/resources/" + proccessName + ".bat");
+                final ProcessBuilder pb = new ProcessBuilder(proccessFile.getAbsolutePath());
+                pb.redirectErrorStream(true);
                 File dir = new File("src/main/resources/");
-                ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
                 pb.directory(dir);
                 Process p = pb.start();
             }
@@ -180,7 +190,7 @@ public class Activity {
         }
 
     }
-    public void openNewSession(String Phone) throws InterruptedException, MalformedURLException {
+    public void openNewSession(String Phone) throws InterruptedException, IOException {
 
         openProcess("appium", "LaunchAppiumServer.bat");
 
@@ -200,8 +210,6 @@ public class Activity {
 
         //6. adding the changes to the driver
         DriverManager.reloadDriver(driver , "4444");
-
-
 
 
     }
