@@ -9,11 +9,10 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,45 +58,30 @@ public class Activity {
 
     }
 
-    public void openProcess(String name,String proccessName) throws InterruptedException, IOException {
-
+    public void clickElement(WebElement element) // clicking element
+    {
+        String text = element.getText();
         try {
-            if (System.getProperty("os.name").startsWith("Mac OS X")) {
+            wait.until(ExpectedConditions.visibilityOf(element));
+            element.click();
+            System.out.println("Clicked on " + text + " element");
+            ATUReports.add("Clicked on " + text + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
+                    null);
+        } catch (Exception msg) {
 
-                File proccessFile = new File("src/main/resources/" + proccessName + ".sh");
-                ProcessBuilder pb = new ProcessBuilder(proccessFile.getAbsolutePath());
-                pb.redirectErrorStream(true);
-                File dir = new File("src/main/resources/");
-                pb.directory(dir);
-                System.out.println("About to start " + proccessFile.getAbsolutePath());
-                Process p = pb.start();
+            try {
+                System.out.println("Clicked failed trying again with JS");
+                String id = element.getAttribute("id");
+                ( (JavascriptExecutor) driver).executeScript("document.getElementById(\"" + id + "\").click();");
+                ATUReports.add("Clicked on " + text + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
+                        null);
 
+            } catch (Exception e1) {
 
-            } else {
-//                List cmdAndArgs = Arrays.asList("cmd", "/c", "start", proccessName);
-//                File dir = new File("src/main/resources/");
-//                ProcessBuilder pb = new ProcessBuilder(cmdAndArgs);
-//                pb.directory(dir);
-//                Process p = pb.start();
-                File proccessFile = new File("src/main/resources/" + proccessName + ".bat");
-                final ProcessBuilder pb = new ProcessBuilder(proccessFile.getAbsolutePath());
-                pb.redirectErrorStream(true);
-                File dir = new File("src/main/resources/");
-                pb.directory(dir);
-                Process p = pb.start();
             }
-            System.out.println("The process:" + name + " has started.");
-            ATUReports.add("The process:" + name + " has not started.","True." ,"False.",LogAs.PASSED, null);
-
-        } catch (Exception E) {
-            System.out.println("The process:" + name + " has not started.");
-            ATUReports.add("The process:" + name + " has not started.","True." ,"False.", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
         }
 
-        Thread.sleep(10000);
-
     }
-
     public void installApk(String phoneName,AppiumDriver driver) throws MalformedURLException, InterruptedException {
 
         if(phoneName.equals("LGG2")) {
@@ -126,7 +110,7 @@ public class Activity {
 
         //WebElement end = driver.findElement(By.name("סיום"));
         //wait.until(ExpectedConditions.visibilityOf(end));
-       // clickElement(end);
+        // clickElement(end);
 
         Thread.sleep(2000);
 
@@ -140,64 +124,33 @@ public class Activity {
     public void installApkLgG2() throws MalformedURLException, InterruptedException {
 
 
-            WebElement allFiles = driver.findElement(By.id("textview_allFiles"));
-            clickElement(allFiles);
+        WebElement allFiles = driver.findElement(By.id("textview_allFiles"));
+        clickElement(allFiles);
 
-            List<WebElement> downloads = driver.findElements(By.id("list_item_name"));
-            clickElement(downloads.get(0));
+        List<WebElement> downloads = driver.findElements(By.id("list_item_name"));
+        clickElement(downloads.get(0));
 
 
-            List<WebElement> downloadsContent = driver.findElements(By.id("list_item_name"));
-            clickElement(downloadsContent.get(3));
+        List<WebElement> downloadsContent = driver.findElements(By.id("list_item_name"));
+        clickElement(downloadsContent.get(3));
 
-            List<WebElement> buttons =  driver.findElements(By.id("list_item_name"));
-            wait.until(ExpectedConditions.visibilityOf(buttons.get(2)));
-            clickElement(buttons.get(2));
+        List<WebElement> buttons =  driver.findElements(By.id("list_item_name"));
+        wait.until(ExpectedConditions.visibilityOf(buttons.get(2)));
+        clickElement(buttons.get(2));
 
-            List<WebElement> button=  driver.findElements(By.className("android.widget.Button"));
-            wait.until(ExpectedConditions.visibilityOf(button.get(1)));
-            clickElement(button.get(1));
+        List<WebElement> button=  driver.findElements(By.className("android.widget.Button"));
+        wait.until(ExpectedConditions.visibilityOf(button.get(1)));
+        clickElement(button.get(1));
 
-            Thread.sleep(2000);
+        Thread.sleep(2000);
 
-            List<WebElement> waitForDownload=  driver.findElements(By.className("android.widget.TextView"));
-            wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(waitForDownload.get(1),"מתקין")));
-            List<WebElement> end=  driver.findElements(By.className("android.widget.Button"));
-            clickElement(end.get(0));
+        List<WebElement> waitForDownload=  driver.findElements(By.className("android.widget.TextView"));
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(waitForDownload.get(1),"מתקין")));
+        List<WebElement> end=  driver.findElements(By.className("android.widget.Button"));
+        clickElement(end.get(0));
     }
 
-    public void clickElement(WebElement element) // clicking element
-    {
-        String text = element.getText();
-        try {
-            wait.until(ExpectedConditions.visibilityOf(element));
-            element.click();
-            System.out.println("Clicked on " + text + " element");
-            ATUReports.add("Clicked on " + text + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
-                    null);
-        } catch (Exception msg) {
-
-            try {
-                System.out.println("Clicked failed trying again with JS");
-                String id = element.getAttribute("id");
-                ( (JavascriptExecutor) driver).executeScript("document.getElementById(\"" + id + "\").click();");
-                ATUReports.add("Clicked on " + text + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
-                        null);
-
-            } catch (Exception e1) {
-
-            }
-        }
-
-    }
     public void openNewSession(String Phone) throws InterruptedException, IOException {
-
-        openProcess("appium", "LaunchAppiumServer.bat");
-
-        openProcess("LGG2", "LGG2Node.bat");
-
-        //3.get driver and capabilities
-        driver = DriverManager.getDriver("LGG2", "4444");
 
         //4.install the apk
         installApk("LGG2",driver);
@@ -211,6 +164,35 @@ public class Activity {
         //6. adding the changes to the driver
         DriverManager.reloadDriver(driver , "4444");
 
-
     }
+
+
+    // This function send keys to input, and verify that this keys appear in
+    // input
+    public void sendKeysToWebElementInput(WebElement web_element, String target_input) {
+        try {
+            waitForVisibility(web_element);
+            web_element.clear();
+            web_element.sendKeys(target_input);
+
+            if (web_element.getAttribute("value").equals(target_input)) {
+                System.out.println("Target keys sent to WebElement: " + target_input);
+                ATUReports.add("Target keys sent.", target_input, target_input, LogAs.PASSED, null);
+                Assert.assertTrue(true);
+            } else {
+                System.out.println("Target keys sent: " + target_input + ", but not appear in the input itself: "
+                        + web_element.getAttribute("value"));
+                ATUReports.add("Target keys send.", target_input, web_element.getAttribute("value"), LogAs.FAILED,
+                        null);
+                Assert.assertTrue(false);
+            }
+        } catch (Exception msg) {
+            System.out.println("Fail to sent target keys: " + target_input);
+            ATUReports.add("Target keys sent.", "True.", "False", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            Assert.assertTrue(false);
+        }
+    }
+
+
+
 }
