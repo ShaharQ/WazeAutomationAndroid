@@ -10,6 +10,7 @@ import com.automation.helpers.MapHelper;
 import com.automation.helpers.SearchHelper;
 import com.automation.helpers.Utils;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
@@ -32,11 +33,14 @@ public class TC1000NavigateToGasStation {
     @BeforeTest
         public void setup() throws IOException, InterruptedException {
 
-        Utils.openProcess("appium", "LaunchAppiumServer.bat");
-        Utils.openProcess("LGG2", "LGG2Node.bat");
-        driver = DriverManager.getDriver("LGG2", "4444");
-        mapHelper = PageFactory.initElements(driver,MapHelper.class);
-        searchHelper =  PageFactory.initElements(driver,SearchHelper.class);
+        Utils.openProcess("appium", "LaunchAppiumServer");
+        Utils.openProcess("SamsungS5", "SumsongGalaxyS5Node");
+        driver = DriverManager.getDriver("SamsungS5", "4444");
+
+        //mapHelper = PageFactory.initElements(driver,MapHelper.class);
+        mapHelper = new MapHelper(driver);
+
+        //searchHelper =  PageFactory.initElements(driver,SearchHelper.class);
 
     }
 
@@ -49,8 +53,9 @@ public class TC1000NavigateToGasStation {
     @Test
     public void test() throws InterruptedException, IOException {
 
+
         //1. open new session
-        mapHelper.openNewSession("LG");
+  //      mapHelper.openNewSession("SamsungS5");
 
         //pre com.automation.tests.TC1000NavigateToGasStation: after the app startup all the tooltips and encouragments shold be eliminated
         //2.click anywhere on the screen
@@ -60,13 +65,15 @@ public class TC1000NavigateToGasStation {
         mapHelper.clickElement(mapHelper.searchButton);
 
         //4.verify that the search page opened - (Tap the main menu icon(the magnifying glass icon)
+        searchHelper = new SearchHelper(driver);
         searchHelper.verifySearchViewOpen();
 
         //5.write hike in the edit box
+
         searchHelper.sendKeysToWebElementInput(searchHelper.searchBox,"hike");
 
         //6.Tap the close icon in the search box
-        searchHelper.clickElement(searchHelper.exitSearch);
+      //  searchHelper.clickElement(searchHelper.exitSearch);
 
         //7.Enter the string 'hike' and tap enter
         searchHelper.sendKeysToWebElementInput(searchHelper.searchBox,"hike" + Keys.ENTER);
@@ -75,13 +82,13 @@ public class TC1000NavigateToGasStation {
         searchHelper.verifyThatWeCanSeeTheResults();
 
         //9.Tap 'Google'
-        searchHelper.clickElement(searchHelper.footerButtons.get(2));
-
-        //10.Tap 'Places'
-        searchHelper.clickElement(searchHelper.footerButtons.get(1));
-
-        //11.Tap 'Search Results'
-        searchHelper.clickElement(searchHelper.footerButtons.get(0));
+//        searchHelper.clickElement(searchHelper.footerButtons.get(2));
+//
+//        //10.Tap 'Places'
+//        searchHelper.clickElement(searchHelper.footerButtons.get(1));
+//
+//        //11.Tap 'Search Results'
+//        searchHelper.clickElement(searchHelper.footerButtons.get(0));
 
         //12.Search the first results
         searchHelper.selectTheFirstResult();

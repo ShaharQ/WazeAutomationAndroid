@@ -4,12 +4,21 @@ import atu.testng.reports.listeners.ATUReportsListener;
 import atu.testng.reports.listeners.ConfigurationListener;
 import atu.testng.reports.listeners.MethodListener;
 import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.annotations.Factory;
 import org.testng.annotations.Listeners;
 
 @Listeners({ ATUReportsListener.class, ConfigurationListener.class, MethodListener.class })
 public class MapHelper extends Activity{
+
+    public MapHelper(WebDriver driver)
+    {
+        super((AppiumDriver) driver);
+        PageFactory.initElements(driver,this);
+    }
 
     @FindBy (id ="mapViewWrapperMapView")
     public WebElement map;
@@ -20,13 +29,10 @@ public class MapHelper extends Activity{
     //Set Peopert for ATU Reporter Configuration
     {
         System.setProperty("atu.reporter.config", "src/main/resources/atu.properties");
-
     }
 
-    public MapHelper(AppiumDriver driver){
-        super(driver);
-    }
-
-
+//    public MapHelper(AppiumDriver driver){
+//        super(driver);
+//    }
 
 }

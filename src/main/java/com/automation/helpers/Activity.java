@@ -150,10 +150,10 @@ public class Activity {
         clickElement(end.get(0));
     }
 
-    public void openNewSession(String Phone) throws InterruptedException, IOException {
+    public void openNewSession(String phone) throws InterruptedException, IOException {
 
         //4.install the apk
-        installApk("LGG2",driver);
+        installApk(phone,driver);
 
         //5.change the main page
         DriverManager.addCapbilities("appWaitActivity", "com.waze.MainActivity");
