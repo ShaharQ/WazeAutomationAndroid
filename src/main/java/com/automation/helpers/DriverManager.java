@@ -35,11 +35,12 @@ public class DriverManager {
         capabilities.setCapability("deviceName","test");
         capabilities.setCapability("platformName","Android");
         //capabilities.setCapability("app", "");
-        //capabilities.setCapability("appWaitActivity", "com.waze.FreeMapAppActivity");
-        //capabilities.setCapability("appWaitPackage", "com.waze");
+        //capabilities.setCapability("appWaitActivity", "com.waze.install.SignUpWelcomeActivity");
+        //capabilities.setCapability("appActivity", "com.waze.SignUpWelcomeActivity");
+        capabilities.setCapability("appPackage", "com.waze");
         capabilities.setCapability("browserName","");
         capabilities.setCapability("commandTimeout","6000");
-        capabilities.setCapability(MobileCapabilityType.APP, apk.getAbsolutePath());
+        capabilities.setCapability(MobileCapabilityType.APP,apk.getAbsolutePath());
 
 
         if(deviceName.equals("LGG2")) {
@@ -51,18 +52,23 @@ public class DriverManager {
             capabilities.setCapability("appPackage", "com.waze");
             capabilities.setCapability("udid", "LGD802988c53e6");
             capabilities.setCapability("bp", "6204");
+
         } else if(deviceName.equals("SamsungS5")){
-            capabilities.setCapability("platformVersion", "6.0.1");
-            capabilities.setCapability("appWaitPackage", "com.waze");
-            capabilities.setCapability("appWaitActivity", "com.waze.install.SignUpWelcomeActivity");
-//            capabilities.setCapability("appPackage", "com.waze");
+            capabilities.setCapability("platformVersion", "6.0.1");//          capabilities.setCapability("appWaitActivity", "HomeScreenActivity");
+            //capabilities.setCapability("appActivity", "com.waze.MainActivity");
+
+            capabilities.setCapability("appWaitPackage", "com.google.android.packageinstaller");
+            capabilities.setCapability("appWaitActivity", "com.android.packageinstaller.permission.ui.GrantPermissionsActivity");
+
         }
 
         Object deviceType = capabilities.getCapability("platformName");
 
         if(deviceType.equals("Android")) {
             driver = new AndroidDriver(new URL("http://localhost:"+ port +"/wd/hub"), capabilities);
-            driver.manage().timeouts().implicitlyWait(3, TimeUnit.MINUTES);
+            driver.manage().timeouts().implicitlyWait(2, TimeUnit.MINUTES);
+            driver.findElementById("com.android.packageinstaller:id/permission_allow_button").click();
+
             firstAlertHandle(driver);
 
         } else {

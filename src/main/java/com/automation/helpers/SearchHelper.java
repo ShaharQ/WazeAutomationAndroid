@@ -32,16 +32,16 @@ public class SearchHelper extends Activity{
 
 
 
-    @AndroidFindBy(id ="com.waze:id/menuSettings")
+    @FindBy(id ="com.waze:id/menuSettings")
     public WebElement settingsButton;
 
-    @AndroidFindBy(id ="com.waze:id/menuSwitchOff")
+    @FindBy(id ="com.waze:id/menuSwitchOff")
     public WebElement switchOffButton;
 
-    @AndroidFindBy(id ="com.waze:id/myWazeProfileImage")
+    @FindBy(id ="com.waze:id/myWazeProfileImage")
     public WebElement profileImage;
 
-    @AndroidFindBy(id ="com.waze:id/searchBox")
+    @FindBy(id ="com.waze:id/searchBox")
     public WebElement searchBox;
 
 //    @AndroidFindBy(id ="btnClearSearch")

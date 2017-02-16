@@ -6,13 +6,16 @@ import atu.testng.selenium.reports.CaptureScreen;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.Key;
 import java.util.List;
 
 /**
@@ -174,8 +177,7 @@ public class Activity {
             waitForVisibility(web_element);
             web_element.clear();
             web_element.sendKeys(target_input);
-
-            if (web_element.getAttribute("value").equals(target_input)) {
+            if (web_element.getAttribute("text").equals(target_input)) {
                 System.out.println("Target keys sent to WebElement: " + target_input);
                 ATUReports.add("Target keys sent.", target_input, target_input, LogAs.PASSED, null);
                 Assert.assertTrue(true);

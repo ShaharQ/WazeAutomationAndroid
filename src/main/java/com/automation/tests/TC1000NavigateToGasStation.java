@@ -10,9 +10,7 @@ import com.automation.helpers.MapHelper;
 import com.automation.helpers.SearchHelper;
 import com.automation.helpers.Utils;
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
@@ -53,6 +51,9 @@ public class TC1000NavigateToGasStation {
     @Test
     public void test() throws InterruptedException, IOException {
 
+//        MapPage mp = new MapPage(driver);
+//        SearchPage sp = mp.goToSearchPage();
+//        sp.navigateTo("Tel aviv");
 
         //1. open new session
   //      mapHelper.openNewSession("SamsungS5");
@@ -69,14 +70,14 @@ public class TC1000NavigateToGasStation {
         searchHelper.verifySearchViewOpen();
 
         //5.write hike in the edit box
-
         searchHelper.sendKeysToWebElementInput(searchHelper.searchBox,"hike");
 
         //6.Tap the close icon in the search box
       //  searchHelper.clickElement(searchHelper.exitSearch);
 
         //7.Enter the string 'hike' and tap enter
-        searchHelper.sendKeysToWebElementInput(searchHelper.searchBox,"hike" + Keys.ENTER);
+        searchHelper.sendKeysToWebElementInput(searchHelper.searchBox,"hike");
+        driver.sendKeyEvent(66);
 
         //8.Search results should appear after a few seconds
         searchHelper.verifyThatWeCanSeeTheResults();

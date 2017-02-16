@@ -4,6 +4,8 @@ import atu.testng.reports.listeners.ATUReportsListener;
 import atu.testng.reports.listeners.ConfigurationListener;
 import atu.testng.reports.listeners.MethodListener;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -20,10 +22,17 @@ public class MapHelper extends Activity{
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy (id ="mapViewWrapperMapView")
-    public WebElement map;
-    @FindBy (id ="mainBottomBarMenuButton")
+//    @FindBy (id ="mapViewWrapperMapView")
+//    public WebElement map;
+
+//    @FindBy (id ="mainBottomBarMenuButton")
+//    public WebElement searchButton;
+
+    @FindBy(id = "com.waze:id/mainBottomBarMenuButton")
     public WebElement searchButton;
+
+    @FindBy (id ="com.waze:id/mapViewWrapperMapView")
+    public WebElement map;
 
 
     //Set Peopert for ATU Reporter Configuration
