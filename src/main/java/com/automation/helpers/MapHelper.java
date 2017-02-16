@@ -15,6 +15,10 @@ public class MapHelper extends Activity{
     public WebElement map;
     @FindBy (id ="mainBottomBarMenuButton")
     public WebElement searchButton;
+    @FindBy (id ="navBarLine")
+    public WebElement navigateBarButton;
+    @FindBy (id ="mainBottomBar")
+    public WebElement BottomBar;
 
 
     //Set Peopert for ATU Reporter Configuration
@@ -26,7 +30,5 @@ public class MapHelper extends Activity{
     public MapHelper(AppiumDriver driver){
         super(driver);
     }
-
-
 
 }

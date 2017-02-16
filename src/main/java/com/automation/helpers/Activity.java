@@ -4,6 +4,7 @@ import atu.testng.reports.ATUReports;
 import atu.testng.reports.logging.LogAs;
 import atu.testng.selenium.reports.CaptureScreen;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -11,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -193,6 +195,27 @@ public class Activity {
         }
     }
 
+    public void clickBackOnTheDevice() throws AWTException {
+        try {
+            Object deviceType = driver.getCapabilities().getCapability("platformName");
 
+            if(deviceType.equals("Android")) {
+                Robot r = new Robot();
+                int keyCode = AndroidKeyCode.BACK;
+                r.keyPress(keyCode);
+                r.keyRelease(keyCode);
+            } else {
+                driver.navigate().back();
+            }
+
+            System.out.println("press on the back icon.");
+            ATUReports.add("press on the back icon.", "True.","True.", LogAs.PASSED, null);
+        } catch (Exception e) {
+            System.out.println("Fail to press on the back icon.");
+            ATUReports.add("Fail to press on the back icon.", "True.", "False", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            Assert.assertTrue(false);
+        }
+
+        }
 
 }

@@ -21,11 +21,6 @@ import java.util.List;
 @Listeners({ ATUReportsListener.class, ConfigurationListener.class, MethodListener.class })
 public class SearchHelper extends Activity{
 
-    //Set Peopert for ATU Reporter Configuration
-    {
-        System.setProperty("atu.reporter.config", "src/main/resources/atu.properties");
-
-    }
     @FindBy(id ="menuSettings")
     public WebElement settingsButton;
     @FindBy(id ="menuSwitchOff")
@@ -40,12 +35,20 @@ public class SearchHelper extends Activity{
     public List<WebElement> searchResults;
     @FindBy(className ="android.widget.TextView")
     public List<WebElement> footerButtons;
+    @FindBy(id ="addressPreviewMore")
+    public WebElement threePoints;
+    @FindBy(id ="addressPreviewGoButton")
+    public WebElement previewGoButton;
+    @FindBy(id ="fragNavResGoText")
+    public WebElement goNewButton;
 
+    //Set Peopert for ATU Reporter Configuration
+    {
+        System.setProperty("atu.reporter.config", "src/main/resources/atu.properties");
 
-
-    public SearchHelper(AppiumDriver driver){
-        super(driver);
     }
+
+    public SearchHelper(AppiumDriver driver){super(driver);}
 
     public void verifySearchViewOpen() {
 
