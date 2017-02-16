@@ -22,13 +22,13 @@
         "role":  "node",
         "cleanUpCycle": 2000,        
         "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-        "url": "http://127.0.0.1:4723/wd/hub",
-        "host": "127.0.0.1",
+        "url": "http://localhost:4723/wd/hub",
+        "host": "localhost",
         "port": 4723,
         "maxSession": 5,
         "register": true,
         "registerCycle": 5000,
         "hubPort": 4444,
-        "hubHost": "127.0.0.1"
+        "hubHost": "localhost"
     }
 }
