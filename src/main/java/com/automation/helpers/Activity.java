@@ -4,12 +4,11 @@ import atu.testng.reports.ATUReports;
 import atu.testng.reports.logging.LogAs;
 import atu.testng.selenium.reports.CaptureScreen;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Keyboard;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -17,7 +16,6 @@ import org.testng.Assert;
 import java.awt.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.security.Key;
 import java.util.List;
 
 /**
@@ -25,8 +23,8 @@ import java.util.List;
  */
 public class Activity {
 
-    private AppiumDriver driver;
-    private WebDriverWait wait;
+    public AppiumDriver driver;
+    public WebDriverWait wait;
 
     public Activity(AppiumDriver activity) {
 
@@ -63,14 +61,14 @@ public class Activity {
 
     }
 
-    public void clickElement(WebElement element) // clicking element
+    public void clickElement(WebElement element , String description) // clicking element
     {
-        String text = element.getText();
+
         try {
             wait.until(ExpectedConditions.visibilityOf(element));
             element.click();
-            System.out.println("Clicked on " + text + " element");
-            ATUReports.add("Clicked on " + text + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
+            System.out.println("Clicked on " + description + " element");
+            ATUReports.add("Clicked on " + description + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
                     null);
         } catch (Exception msg) {
 
@@ -78,7 +76,7 @@ public class Activity {
                 System.out.println("Clicked failed trying again with JS");
                 String id = element.getAttribute("id");
                 ( (JavascriptExecutor) driver).executeScript("document.getElementById(\"" + id + "\").click();");
-                ATUReports.add("Clicked on " + text + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
+                ATUReports.add("Clicked on " + description + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
                         null);
 
             } catch (Exception e1) {
@@ -100,18 +98,18 @@ public class Activity {
     public void installApkSamsungS5() throws InterruptedException {
 
         WebElement deviceStorage = driver.findElement(By.id("Main_list_item_container"));
-        clickElement(deviceStorage);
+        clickElement(deviceStorage , "device");
 
         List<WebElement> downloads = driver.findElements(By.id("text1"));
-        clickElement(downloads.get(0));
+        clickElement(downloads.get(0) , "downloads");
 
 
         List<WebElement> downloadsContent = driver.findElements(By.id("text1"));
-        clickElement(downloadsContent.get(0));
+        clickElement(downloadsContent.get(0) , "downloads content");
 
         List<WebElement> buttons =  driver.findElements(By.className("android.widget.Button"));
         wait.until(ExpectedConditions.visibilityOf(buttons.get(1)));
-        clickElement(buttons.get(1));
+        clickElement(buttons.get(1) ,"install") ;
 
         //WebElement end = driver.findElement(By.name("סיום"));
         //wait.until(ExpectedConditions.visibilityOf(end));
@@ -122,7 +120,7 @@ public class Activity {
         List<WebElement> waitForDownload=  driver.findElements(By.className("android.widget.TextView"));
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(waitForDownload.get(1),"מתקין")));
         List<WebElement> end=  driver.findElements(By.className("android.widget.Button"));
-        clickElement(end.get(0));
+        clickElement(end.get(0) , "finish");
 
     }
 
@@ -130,29 +128,29 @@ public class Activity {
 
 
         WebElement allFiles = driver.findElement(By.id("textview_allFiles"));
-        clickElement(allFiles);
+        clickElement(allFiles , "all files");
 
         List<WebElement> downloads = driver.findElements(By.id("list_item_name"));
-        clickElement(downloads.get(0));
+        clickElement(downloads.get(0) , "downloads");
 
 
         List<WebElement> downloadsContent = driver.findElements(By.id("list_item_name"));
-        clickElement(downloadsContent.get(3));
+        clickElement(downloadsContent.get(3) , "downloads content");
 
         List<WebElement> buttons =  driver.findElements(By.id("list_item_name"));
         wait.until(ExpectedConditions.visibilityOf(buttons.get(2)));
-        clickElement(buttons.get(2));
+        clickElement(buttons.get(2) , "button");
 
         List<WebElement> button=  driver.findElements(By.className("android.widget.Button"));
         wait.until(ExpectedConditions.visibilityOf(button.get(1)));
-        clickElement(button.get(1));
+        clickElement(button.get(1) , "install");
 
         Thread.sleep(2000);
 
         List<WebElement> waitForDownload=  driver.findElements(By.className("android.widget.TextView"));
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(waitForDownload.get(1),"מתקין")));
         List<WebElement> end=  driver.findElements(By.className("android.widget.Button"));
-        clickElement(end.get(0));
+        clickElement(end.get(0) , "finish");
     }
 
     public void openNewSession(String phone) throws InterruptedException, IOException {
@@ -202,10 +200,7 @@ public class Activity {
             Object deviceType = driver.getCapabilities().getCapability("platformName");
 
             if(deviceType.equals("Android")) {
-                Robot r = new Robot();
-                int keyCode = AndroidKeyCode.BACK;
-                r.keyPress(keyCode);
-                r.keyRelease(keyCode);
+                ((AndroidDriver)driver).pressKeyCode(AndroidKeyCode.BACK);
             } else {
                 driver.navigate().back();
             }
@@ -218,6 +213,32 @@ public class Activity {
             Assert.assertTrue(false);
         }
 
+        }
+
+        public void sendKeyboardKeys(int number , String description) {
+
+           try {
+            ((AndroidDriver)driver).pressKeyCode(number);
+            System.out.println("press on the " + description + " key on the keyboard.");
+            ATUReports.add("press on the " + description + " key on the keyboard.", "True.","True.", LogAs.PASSED, null);
+
+           } catch (Exception e) {
+               e.printStackTrace();
+               System.out.println("Fail to press on the key" + description);
+               ATUReports.add("Fail to press on the key" + description, "True.", "False", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+           }
+        }
+
+        public void TapOnTheScreenByCoordinates(int x, int y ,String description) {
+            try {
+                driver.tap(1, x, y, 1);
+                System.out.println("Clicked on " + description + " element");
+                ATUReports.add("Clicked on " + description + " element", "Clicked succeeded.", "Clicked succeeded..", LogAs.PASSED,
+                        null);
+            } catch (Exception msg) {
+                System.out.println("Fail to Tap on the screen on the element " + description);
+                ATUReports.add("Fail to Tap on the screen on the element " + description, "True.", "False", LogAs.FAILED, new CaptureScreen(CaptureScreen.ScreenshotOf.BROWSER_PAGE));
+            }
         }
 
 }

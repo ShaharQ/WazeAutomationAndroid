@@ -3,6 +3,7 @@ package com.automation.helpers;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 /**
  * Created by mkalash on 2/14/17.
@@ -22,7 +23,9 @@ public class DirectionsHelper extends Activity{
 
     public DirectionsHelper(AppiumDriver driver) {
         super(driver);
+        PageFactory.initElements(driver,this);
     }
+
 }
 
 
